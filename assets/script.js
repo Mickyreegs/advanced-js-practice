@@ -166,3 +166,70 @@ let updatedSubjects = update(subjects, "Electronics");
 
 console.log(updatedSubjects);
 console.log(students[0]);
+
+
+
+//-----------Rest Parameter Syntax
+/*
+Where the spread operator can break an array into  its individual elements, the rest parameter syntax
+combines individual elements into an array. It can  also be used to represent the “rest” of the values
+when destructuring an array or object
+*/
+
+// Regular function call 
+const sumAll = (a, b, c) => a + b + c;
+let sum1 = sumAll(1, 2, 3);
+console.log('Sum:', sum1);
+
+// Extra arguments are ignored
+let sumNew = sumAll(1, 2, 3, 4, 5, 6);
+console.log('Sum2:', sumNew);
+
+/*
+In the above, what if you wanted to sum an arbitrary number of parameters?
+JavaScript will allow you to pass in as many  rguments as you want regardless of how many
+are specified when you define the function, so I can simply pass 1, 2, 3, 4, 5, and 6,
+and the last three will just be ignored. If I log  this to the console as sum2, the value is still 6,
+which is obviously not what we want. This is  where the rest parameter syntax comes into play.
+*/
+
+// Function using ...rest
+const sumRest = (a, b, c, ...rest) => {
+    let sum = a + b + c;
+    for(let i of rest) {
+        sum += i
+    }
+
+    return sum;
+}
+
+let sum3 = sumRest(1, 2, 3, 4, 5, 6); 
+console.log('Sum3:', sum3);
+
+/*
+In the above, I'll create a new arrow function called sumRest,  and this time it will take four parameters,
+a, b, and c, and a new parameter called rest.  You'll see I'm using the three dots syntax here again,
+but this time it's going to squash  any extra parameters passed into the function
+into a new parameter called rest, which will be  an array within the function.
+This parameter can technically be called  anything you want, but I'm calling it rest here
+to demonstrate that it signifies the rest of  the parameters. Let's finish the new function now.
+We can sum the first three  variables easily enough.
+Just let sum = a + b + c. Now I'll use a  for...of loop to iterate through the rest array
+and add each additional number to the  existing sum. At the end I'll just return sum.
+Now if I create a new variable called sum3, set  it equal to sum rest of the numbers 1 through 6,
+and log it to the console, I get the expected output of 21.
+*/
+
+//-----------Rest Parameter Challenge:
+let mixedLetters = ['b', 'd', 'a', 'c', 'f', 'e'];
+
+let moreMixedLetters = [...mixedLetters, 'h', 'k', 'g', 'j', 'i', 'l'];
+
+console.log(moreMixedLetters);
+
+const updateSortReverse = (arr, ...letters) => [...arr, ...letters].sort().reverse();
+
+let reverseSort = updateSortReverse(moreMixedLetters, 'n', 'm', 'o');
+console.log(reverseSort);
+
+console.log(mixedLetters);
