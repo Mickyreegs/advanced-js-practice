@@ -417,6 +417,11 @@ const studentis = [
   const studentsWithIds = studentis.map(student => [student.name, student.id]);
   console.log(studentsWithIds);
 
+  const studentsWithAges = studentis.map(student => ({ ...student, age: student.id === 1 ? 25 : student.id === 2 ? 22 : student.id === 3 ? 27 : null }));
+  console.log(studentsWithAges);
+
+
+
 /*
 filter() iterates over an array of items, and filters the  array to only a specified set of results.
 If you had an array of numbers, you could use filter()  to filter the array down to only the even numbers.
