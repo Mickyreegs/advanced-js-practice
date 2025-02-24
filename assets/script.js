@@ -343,3 +343,99 @@ let [first, second, ...remainder] = makeList(studenti, 'John');
 console.log(first, second, remainder);
 
 
+//-----------map() filter() reduce():
+/*//All three of these methods are array methods,  which means they operate on an array of elements.
+The array can be an array of anything: strings,  numbers, objects containing properties and values,
+or even other arrays, but it must be an array in  order for map, filter or reduce to work on it.
+Map, filter and reduce are all designed to be  able to accomplish the same things that can be
+accomplished with a for loop or a while loop,  using less code. They are iterator methods,
+which basically means that they provide a nice,  elegant way to iterate through an array of items
+and perform some action on each item.
+*/
+
+/*In the context of these three methods,
+a callback function is simply a function  that we pass as a parameter to the method,
+which will be called on every element  of the array the method is operating on.
+e.g. map(num => num * 2)
+*/
+
+/*
+The map() method is called  on an array, and takes a single parameter,
+a callback function, which is a function you  want to execute on every element in the array.
+The map() method then iterates over the array,  calls this callback function on every element,
+and returns a new array containing  all the results of that process.
+*/ 
+
+// Using a for loop
+let nums = [1, 2, 3, 4, 5];
+let results = [];
+for (let num of nums) {
+    results.push(num * 2)
+}
+console.log(results);
+
+// Using map()
+const multByTwo = function (num) {
+    return num * 2;
+}
+const mapResults = nums.map(multByTwo);
+console.log(mapResults);
+
+
+// Simplified w/ map()
+const simplified = nums.map(function (num) {return num * 2});
+console.log(simplified);
+
+
+// Simplfied w/ map() + arrow function.  This is the typical way to use the map method.
+const arrow = nums.map(num => num * 2)
+console.log(arrow);
+
+
+// With objects:
+const studentis = [
+    {
+      id: 1,
+      name: 'Mark',
+      profession: 'Developer',
+      skill: 'JavaScript'
+    },
+    {
+      id: 2,
+      name: 'Ariel',
+      profession: 'Developer',
+      skill: 'HTML'
+    },
+    {
+      id: 3,
+      name: 'Jason',
+      profession: 'Designer',
+      skill: 'CSS'
+    },
+  ];
+
+  const studentsWithIds = studentis.map(student => [student.name, student.id]);
+  console.log(studentsWithIds);
+
+/*
+filter() iterates over an array of items, and filters the  array to only a specified set of results.
+If you had an array of numbers, you could use filter()  to filter the array down to only the even numbers.
+If you had an array of names, you could filter  it to only those names that begin with a certain letter.
+Basically, the filter method is for  filtering an array. Like the map method,
+it does this by taking a callback function as a  parameter. Each item in the array will be passed
+into the callback function, and if the callback  function returns true when given that element,
+that element will be included in the results.  Otherwise, the element will be filtered out.
+When the filter method is complete, the result  is a new array containing the filtered results.
+*/
+
+
+
+/*
+reduce() reduces all the elements of an array
+into a single output value, according to a  callback function you provide. The simplest usage
+of this method might be if you wanted to reduce an  array of numbers to their total sum. In this case,
+you would call the reduce() method on the array  of numbers, and the callback function you pass
+as its parameter would serve the purpose of adding  each number to the last and keeping track of the total.
+*/
+
+
