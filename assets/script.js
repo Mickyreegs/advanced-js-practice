@@ -531,7 +531,70 @@ const people = [
     },
   ];
 
+  //const candidates = students2.filter(student => {
+    //let strongSkills = student.skills.filter(skill => skill.yrsExperience >= 5);
+    //return strongSkills.length > 0;
+ // })
+  //console.log(candidates);
 
+/*
+In the above case, This filter looks pretty complex and it’s not exactly easy to  understand what’s going on.
+I would extract the whole filter function into its  own function, for example, called hasStrongSkills:
+Then I can just pass the hasStrongSkills  function to my filter, which is a lot
+easier to read, plus it allows us to  reuse the filter function elsewhere.
+*/
+
+//const hasStrongSkills = student => {
+  //let strongSkills = student.skills.filter(skill => skill.yrsExperience >= 5);
+  //return strongSkills.length > 0;
+//}
+
+//const candidates = students2.filter(hasStrongSkills);
+//console.log(candidates);
+
+/*
+I could even extract the inner  filter into another external function
+called has5YearsExp, and then pass it  inside the hasStrongSkills function.
+This actually allows me to then remove the return  statement and the strongSkills variable entirely,
+just attach .length onto the  end of the inner filter instead,
+and turn everything into a  nice single line of code.  See below
+*/
+
+const has5yearsExp = skill => skill.yrsExperience >= 5;
+const hasStrongSkills = student => student.skills.filter(has5yearsExp).length > 0;
+const candidates = students2.filter(hasStrongSkills).map(student => student.name);
+console.log(candidates);
+
+//Filter challenge:
+let students4 = [
+  {
+      name: 'John',
+      subjects: ['maths', 'english', 'cad'],
+      teacher: {maths: 'Harry', english: 'Joan', cad: 'Paul'},
+      results: {maths: 90, english: 75, cad: 87},
+  },
+  {
+      name: 'Emily',
+      subjects: ['science', 'english', 'art'],
+      teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+      results: {science: 93, english: 80, art: 95},
+  },
+  {
+      name: 'Adam',
+      subjects: ['science', 'maths', 'art'],
+      teacher: {science: 'Iris', maths: 'Harry', art: 'Simon'},
+      results: {science: 84, maths: 97, art: 95},
+  },
+  {
+      name: 'Fran',
+      subjects: ['science', 'english', 'art'],
+      teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+      results: {science: 67, english: 87, art: 95},
+  }
+];
+
+const topMaths = students4.filter(student => student.results.maths >= 90);
+console.log(topMaths);
 
 /*
 reduce() reduces all the elements of an array
