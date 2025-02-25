@@ -604,4 +604,236 @@ you would call the reduce() method on the array  of numbers, and the callback fu
 as its parameter would serve the purpose of adding  each number to the last and keeping track of the total.
 */
 
+// Summing an array of numbers:
 
+const nums2 = [0, 1, 2, 3, 4];
+let sum4 = nums2.reduce((acc, curr) => acc + curr);
+console.log(sum4);
+
+/*
+acc = accumulator.  The accumulator represents the value that will  ultimately be returned from the reduce method.
+In this case it will accumulate and keep track of the sum as the callback function is executed on each array element.
+So here, the accumulator will be an integer because we’re calculating a sum, but
+we could also be accumulating items into an array,  an object or something else.
+*/
+
+/*
+curr = currentValue. This represents the current array  item that the callback function is being run on. 
+*/
+
+let sum5 = nums2.reduce((acc, curr) => {
+  console.log(
+    "Accumulator:", acc,
+    "Current Value:",curr,
+    "Total:", acc + curr
+  );
+  return acc + curr
+});
+console.log(sum5);
+
+/*
+In the above, The important thing to  recognize here is that the accumulator is
+“accumulating” the sum of the current values  as the function is executed for each element.
+*/
+
+/*
+let’s explore why
+the function only executed four times even though  there were five elements in the array of numbers.
+The reason is that the reduce method  actually takes a second parameter -
+the initial value to use as the accumulator.  If you don’t specify an initial value,
+the accumulator will default to the first element  in the array. In this case that element was zero,
+and the accumulation process starts with  the second element in the array, so 1 is added to 0.
+However, if I explicitly specify  an initial value to use as the accumulator, then
+the callback function will execute five times,  beginning with the first element of the array,
+and using our explicit initial value as the  accumulator.  See below
+*/
+
+let sum6 = nums2.reduce((acc, curr) => {
+  console.log(
+    "Accumulator:", acc,
+    "Current Value:",curr,
+    "Total:", acc + curr
+  );
+  return acc + curr
+}, 0);
+console.log(sum6);
+
+/*
+if I were to change  the initial value to 10, then the reduce method
+will start the summing process at 10, giving  us a final value of 20. In a practical sense,
+using the initial value is a good way to add  more to a previously calculated subtotal,
+add more items into an existing array, or inject  additional properties into an existing object.
+In this case, we’re using a simple integer as the  initial value, but it can really be anything you want,
+and should be determined based on what  you want to accomplish with the reduce method. see below
+*/
+
+let sum7 = nums2.reduce((acc, curr) => {
+  console.log(
+    "Accumulator:", acc,
+    "Current Value:",curr,
+    "Total:", acc + curr
+  );
+  return acc + curr
+}, 10);
+console.log(sum7);
+
+/*I’m going to simplify this callback function again,
+by turning it back into a one liner and  explicitly specifying the initial value of zero.  See below
+*/
+
+let sum8 = nums2.reduce((acc, curr) => acc + curr, 0);
+console.log(sum8);
+
+
+const teamMembers = [
+  {
+    name: 'Andrew',
+    profession: 'Developer',
+    yrsExperience: 5
+  },
+  {
+    name: 'Ariel',
+    profession: 'Developer',
+    yrsExperience: 7
+  },
+  {
+    name: 'Michael',
+    profession: 'Designer',
+    yrsExperience: 1
+  },
+  {
+    name: 'Kelly',
+    profession: 'Designer',
+    yrsExperience: 3
+  },
+  {
+    name: 'Mark',
+    profession: 'Manager',
+    yrsExperience: 10
+  }
+];
+
+// Totaling a specific object property
+/*
+Here we’ve got
+an array of team members where each team member  is an object containing their name, profession
+and years of experience. Our goal is to total all  the experience the team has as a whole.
+This will be quite similar to the process for summing the  array of numbers.
+*/
+
+let totalExperience = teamMembers.reduce((acc, curr) => acc + curr.yrsExperience, 0);
+console.log(totalExperience);
+
+/*
+without specifying the initial value above,
+the accumulator starts out as the first element  in the array which in this case is an object.
+*/
+
+// Grouping by a property, and totaling it too
+
+/*For the final example, let’s do something a little  more interesting. We’re going to use reduce to
+group our team members by profession and find  the total experience for each profession.
+We’ve got two developers, totaling 12 years experience  and two designers totaling 4 years of experience.
+To accomplish this I first need to consider what  kind of result I want back, like an integer,
+an array, an object or something else. The type  of result I want back will determine the initial
+value I should start with. In this case, an  empty object is probably good, because then
+in the callback function we can add a developer  property and a designer property, and their values
+will be the total years of experience for each profession.*/
+
+
+//Just to be crystal clear, this first set of curly braces is the boundaries of the  callback function, and the second set after the
+//comma is our initial value, an empty object.
+
+let experienceByProfession = teamMembers.reduce((acc, curr) => {
+  let key = curr.profession;
+  if(!acc[key]) {
+    acc[key] = curr.yrsExperience;
+  } else {
+    acc[key] += curr.yrsExperience;
+  }
+  return acc;
+}, {});
+
+console.log(experienceByProfession);
+
+/*
+In the above, if I want to create a  property in my object for Developer, I need to get
+curr.profession. I’ll call this variable key. Now, I need to check whether the key already exists in
+the object we’re going to be accumulating into.  If it doesn’t yet exist, I’ll set it equal to
+curr.yrsExperience. This means the first time  we see a new profession, that property will
+be added into the accumulator and its value  will be set to the team member’s experience.
+Otherwise, if the key does already exist, it’s as  simple as adding the current member’s experience
+to the already existing value. When I’m done, all  I’ve got to do is return the accumulator.
+
+The great thing about the reduce method  is its versatility. For example, watch
+what happens when I add another team member (Mark)  with a different profession to the array.
+I can run the code again and the  result already has a new category
+with the relevant years of experience.
+*/
+
+/*
+As a final thought experiment,
+consider some of the other ways you could  manipulate this teamMembers array using reduce.
+Think about how you could restructure it into  an object similar to the one we just created,
+but instead of totaling the experience for each  profession, you instead provide an array of the
+names of those employees. What about if there  were 100 employees and 20 different professions,
+and you wanted to filter out only the ones in a specific profession and find the one with the most experience?
+All of this could be done using combinations of map, filter and reduce.
+*/
+
+//Reduce Challenge:
+let students10 = [
+  {
+      name: 'John',
+      subjects: ['maths', 'english', 'cad'],
+      teacher: {maths: 'Harry', english: 'Joan', cad: 'Paul'},
+      results: {maths: 90, english: 75, cad: 87},
+  },
+  {
+      name: 'Emily',
+      subjects: ['science', 'english', 'art'],
+      teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+      results: {science: 93, english: 73, art: 95},
+  },
+  {
+      name: 'Adam',
+      subjects: ['science', 'maths', 'art'],
+      teacher: {science: 'Iris', maths: 'Harry', art: 'Simon'},
+      results: {science: 93, english: 88, maths: 97, art: 95},
+  },
+  {
+      name: 'Fran',
+      subjects: ['science', 'english', 'art'],
+      teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+      results: {science: 93, english: 87, art: 95},
+  }
+];
+
+/*
+Steps
+You will use the reduce method to execute a function on each item resulting in a single object. The object should be that of the student with the highest english score and should show the student's name and english score. 
+You can either create the arrow function within the reduce method. or create an arrow function outside and pass it into the reduce method.
+Keep an eye open for spots to use destructuring, You will not be tested to see if you have done this, but it would be good for getting in more practice.
+Create a variable named biggest using the keyword const
+Assign it a value from using the reduce method on the students array
+Use either an arrow function inside the reduce method, or create a function and pass it into the reduce method
+Use a default value with the reduce method
+log out the variable biggest to see the value
+*/
+
+const biggest = students10.reduce((acc, cur) => {
+  acc = acc.max > cur.results.english ? acc: {name:cur.name, max:cur.results.english};
+  return acc;
+  }, {name: '', max: 0});
+console.log(biggest);
+
+/* Using destructuring 
+const biggest = students.reduce(({max, name}, {name:n, results:{english}}) => {
+  if(max < english) {
+      acc = {name:n, max: english};
+  }
+  return acc;
+  }, {name: '', max: 0});
+  
+console.log(biggest);
+*/
